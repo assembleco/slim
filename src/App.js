@@ -1,11 +1,11 @@
 import React from 'react';
 import styled from "styled-components"
 
+import Steps from "./Steps"
+
 const App = (state) => (
   <Layout>
-    <header>
-      <h1>Welcome to React</h1>
-    </header>
+    <Steps steps={["Receive", "Test", "Review", "Release"]} />
 
     <p>
       To get started, edit <code>src/App.js</code> and save to reload.
