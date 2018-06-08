@@ -4,6 +4,11 @@ import styled from "styled-components"
 
 import TabView from "./TabView"
 
+import Receive from "./Receive"
+import Test from "./Test"
+import Review from "./Review"
+import Release from "./Release"
+
 const App = (state) => (
   <Router>
     <Layout>
@@ -11,10 +16,10 @@ const App = (state) => (
 
       <TabView
         tabs={{
-          receive: () => <PageContent />,
-          test: () => <PageContent />,
-          review: () => <PageContent />,
-          release: () => <PageContent />,
+          receive: () => <Receive onReceive={console.log} />,
+          test: () => <Test />,
+          review: () => <Review />,
+          release: () => <Release />,
         }} />
     </Layout>
   </Router>
@@ -28,11 +33,6 @@ const Layout = styled.div`
 
 const Sidebar = styled.div`
 background-color: blue;
-`
-
-const PageContent = styled.div`
-  height: 10rem;
-  background-color: black;
 `
 
 export default App
