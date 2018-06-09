@@ -9,21 +9,67 @@ import Test from "./Test"
 import Review from "./Review"
 import Release from "./Release"
 
-const App = (state) => (
-  <Router>
-    <Layout>
-      <Sidebar />
+class App extends React.Component {
+  assemble = new Assemble("http://localhost:3000")
 
-      <TabView
-        tabs={{
-          receive: () => <Receive onReceive={console.log} />,
-          test: () => <Test />,
-          review: () => <Review />,
-          release: () => <Release />,
-        }} />
-    </Layout>
-  </Router>
-)
+  state = {
+    receivedSamples: [],
+  }
+
+  render() {
+    return (
+      <Router>
+        <Layout>
+          <Sidebar />
+
+          <TabView
+            tabs={{
+              receive: () =>
+                <Receive
+                  samples={this.state.receivedSamples}
+                  onReceive={this.fetchSampleInfo.bind(this)}
+                />,
+              test: () => <Test />,
+              review: () => <Review />,
+              release: () => <Release />,
+            }} />
+        </Layout>
+      </Router>
+    )
+  }
+
+  componentDidMount() {
+    this.assemble.watch("slim")`
+      select * from samples where status = 'Received'
+    `
+    .then((samples) => this.setState({ receivedSamples: samples }))
+  }
+
+  componentWillUnmount() {
+    this.assemble.stopWatching()
+  }
+
+  fetchSampleInfo(sampleNo) {
+    this.assemble.system("accupacDatabase")`
+      select
+      qjobid as 'Sample',
+      parts.partno as 'Part #',
+      customer.custname as 'Customer' from qjob
+
+      inner join parts on qjob.partno = parts.partno
+      inner join customer on customer.custno = LEFT(parts.partno, 4)
+
+      where qjobid = '${sampleNo}'
+      or workorderno = '${sampleNo}'
+    `
+    .then(csvParse)
+    .then((sampleInfo) => this.assemble.system("slim")`
+      insert into samples
+      (id, partNo, customer, status)
+      ${sampleInfo.id}, ${sampleInfo.partNo}, ${sampleInfo.customer}, 'Recieved'
+    `)
+  }
+}
 
 const Layout = styled.div`
   display: grid;
@@ -34,5 +80,25 @@ const Layout = styled.div`
 const Sidebar = styled.div`
 background-color: blue;
 `
+
+class Assemble {
+  constructor(url) {
+    this.url = url
+  }
+
+  system = (system) => (
+    (template, ...expresions) => new Promise(resolve => { resolve([]) })
+  )
+
+  watch = (system) => (
+    (template, ...expresions) => new Promise(resolve => { resolve([]) })
+  )
+}
+
+const csvParse = () => ({
+  id: "q123456",
+  partNo: "0123456789",
+  customer: "PharmaCo",
+})
 
 export default App
