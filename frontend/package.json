@@ -2,6 +2,7 @@
   "name": "slim",
   "version": "0.1.0",
   "private": true,
+  "proxy": "http://localhost:3001",
   "dependencies": {
     "@material-ui/core": "^1.1.0",
     "mdi-material-ui": "^5.1.1",
