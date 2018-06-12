@@ -31,6 +31,12 @@ class TabView extends React.Component {
             />
           ))}
         </Switch>
+
+        <Route
+          exact
+          path={base_url}
+          component={Object.values(this.props.tabs)[0]}
+        />
       </div>
     )
   }
