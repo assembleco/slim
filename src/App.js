@@ -20,7 +20,9 @@ class App extends React.Component {
     return (
       <Router>
         <Layout>
-          <Sidebar />
+          <Sidebar>
+            Filters &gt;
+          </Sidebar>
 
           <TabView
             tabs={{
@@ -70,12 +72,17 @@ class App extends React.Component {
 
 const Layout = styled.div`
   display: grid;
-  grid-template-columns: 30% 1fr 0;
+  grid-template-columns: 8rem 1fr 0;
   grid-column-gap: 3rem;
+  height: 100%;
+  grid-template-rows: 100%;
 `
 
 const Sidebar = styled.div`
-background-color: blue;
+  background-color: rgb(98, 165, 226);
+  color: white;
+  text-align: center;
+  padding-top: 2rem;
 `
 
 class Assemble {

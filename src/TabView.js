@@ -9,7 +9,7 @@ class TabView extends React.Component {
     let base_url = (this.props.match && this.props.match.url) || ""
 
     return (
-      <div>
+      <Layout>
         <TabSelector tabCount={Object.keys(this.props.tabs).length}>
           { Object.keys(this.props.tabs).map((tab) => (
             <Tab
@@ -37,10 +37,14 @@ class TabView extends React.Component {
           path={base_url}
           component={Object.values(this.props.tabs)[0]}
         />
-      </div>
+      </Layout>
     )
   }
 }
+
+const Layout = styled.div`
+  padding-top: 2rem;
+`
 
 const TabSelector = styled.div`
   display: grid;
