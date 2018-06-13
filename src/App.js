@@ -42,11 +42,8 @@ class App extends React.Component {
     this.assemble.watch("slim")`
       select * from samples where status = 'Received'
     `
+    .then(stubData)
     .then((samples) => this.setState({ receivedSamples: samples }))
-  }
-
-  componentWillUnmount() {
-    this.assemble.stopWatching()
   }
 
   fetchSampleInfo(sampleNo) {
@@ -63,17 +60,17 @@ class App extends React.Component {
       or workorderno = '${sampleNo}'
     `
     .then(csvParse)
-    .then((sampleInfo) => this.assemble.system("slim")`
+    .then((samples) => samples.forEach((sampleInfo) => this.assemble.system("slim")`
       insert into samples
       (id, partNo, customer, status)
       ${sampleInfo.id}, ${sampleInfo.partNo}, ${sampleInfo.customer}, 'Recieved'
-    `)
+    `))
   }
 }
 
 const Layout = styled.div`
   display: grid;
-  grid-template-columns: 30% 1fr;
+  grid-template-columns: 30% 1fr 0;
   grid-column-gap: 3rem;
 `
 
@@ -95,10 +92,27 @@ class Assemble {
   )
 }
 
-const csvParse = () => ({
-  id: "q123456",
-  partNo: "0123456789",
-  customer: "PharmaCo",
-})
+const csvParse = () => ([])
+
+const stubData = () => ([
+  {
+    id: "q123456",
+    partNo: "0123456789",
+    customer: "PharmaCo",
+    item: "Anti-Cavity Toothpaste",
+  },
+  {
+    id: "q123456",
+    partNo: "0123456789",
+    customer: "PharmaCo",
+    item: "Anti-Cavity Toothpaste",
+  },
+  {
+    id: "q123456",
+    partNo: "0123456789",
+    customer: "PharmaCo",
+    item: "Anti-Cavity Toothpaste",
+  },
+])
 
 export default App
