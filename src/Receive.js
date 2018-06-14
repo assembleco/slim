@@ -8,6 +8,7 @@ import T from '@material-ui/core/Typography';
 
 import { BarcodeScan } from "mdi-material-ui"
 import BarcodeField from "./BarcodeField"
+import Comment from "./Comment"
 
 const Receive = ({samples, onReceive}) => (
   <Layout>
@@ -17,6 +18,16 @@ const Receive = ({samples, onReceive}) => (
     <p>
       <BarcodeField focus onScan={(value) => onReceive(value)} />
     </p>
+
+    <Comment source={`
+To test out this system, copy & paste one of these:
+
+* \`q123456\`
+* \`q234567\`
+* \`q345679\`
+* \`q456789\`
+* \`q567890\`
+    `} />
 
     {samples.length > 0
       &&
@@ -36,11 +47,11 @@ const Receive = ({samples, onReceive}) => (
 
               <div>
                 <T variant="caption" align="right">
-                  Part {sample.partNo}
+                  Part {sample.partno}
                 </T>
 
                 <T variant="subheading" align="right">
-                  {String.toUpperCase(sample.id)}
+                  {sample.id.toUpperCase()}
                 </T>
               </div>
             </Sample>,

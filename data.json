@@ -1,6 +1,6 @@
-Sample|Part #|Item|Customer
-Q123456|0123123456|Shaving Cream|PharmaGuys
-Q234567|0123123456|Shaving Cream|PharmaGuys
-Q345678|0123123456|Shaving Cream|PharmaGuys
-Q456789|0123234567|Anti-Cavity Toothpaste|Dental Tech
-Q567890|0123234567|Anti-Cavity Toothpaste|Dental Tech
+id,part,item,customer
+Q123456,0123123456,Shaving Cream,PharmaGuys
+Q234567,0123123456,Shaving Cream,PharmaGuys
+Q345678,0123123456,Shaving Cream,PharmaGuys
+Q456789,0123234567,Anti-Cavity Toothpaste,Dental Tech
+Q567890,0123234567,Anti-Cavity Toothpaste,Dental Tech

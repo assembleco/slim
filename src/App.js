@@ -3,6 +3,7 @@ import { BrowserRouter as Router } from "react-router-dom"
 import styled from "styled-components"
 
 import TabView from "./TabView"
+import Assemble from "./Assemble"
 
 import Receive from "./Receive"
 import Test from "./Test"
@@ -43,17 +44,16 @@ class App extends React.Component {
   componentDidMount() {
     this.assemble.watch("slim")`
       select * from samples where status = 'Received'
-    `
-    .then(stubData)
-    .then((samples) => this.setState({ receivedSamples: samples }))
+    `((result) => this.setState({ receivedSamples: csvParse(result) }))
   }
 
   fetchSampleInfo(sampleNo) {
-    this.assemble.system("accupacDatabase")`
+    this.assemble.run("accupacDatabase")`
       select
-      qjobid as 'Sample',
-      parts.partno as 'Part #',
-      customer.custname as 'Customer' from qjob
+      qjobid as 'id',
+      parts.partno as 'part',
+      descLong as 'item',
+      customer.custname as 'customer' from qjob
 
       inner join parts on qjob.partno = parts.partno
       inner join customer on customer.custno = LEFT(parts.partno, 4)
@@ -62,10 +62,16 @@ class App extends React.Component {
       or workorderno = '${sampleNo}'
     `
     .then(csvParse)
-    .then((samples) => samples.forEach((sampleInfo) => this.assemble.system("slim")`
+    .then((samples) => samples.forEach((sampleInfo) => this.assemble.run("slim")`
       insert into samples
-      (id, partNo, customer, status)
-      ${sampleInfo.id}, ${sampleInfo.partNo}, ${sampleInfo.customer}, 'Recieved'
+      (id, partNo, item, customer, status)
+      values (
+      '${sampleInfo.id}',
+      '${sampleInfo.part}',
+      '${sampleInfo.item}',
+      '${sampleInfo.customer}',
+      'Received'
+      )
     `))
   }
 }
@@ -85,41 +91,22 @@ const Sidebar = styled.div`
   padding-top: 2rem;
 `
 
-class Assemble {
-  constructor(url) {
-    this.url = url
-  }
+const csvParse = (csvData) => {
+  let lines = csvData.trim().split("\n")
+  let headers = lines.shift()
 
-  system = (system) => (
-    (template, ...expresions) => new Promise(resolve => { resolve([]) })
-  )
+  let results = []
+  lines.forEach((line) => {
+    let result = {}
 
-  watch = (system) => (
-    (template, ...expresions) => new Promise(resolve => { resolve([]) })
-  )
+    headers.split(",").forEach((field, index) => {
+      result[field] = line.split(",")[index]
+    })
+
+    results.push(result)
+  })
+
+  return results;
 }
-
-const csvParse = () => ([])
-
-const stubData = () => ([
-  {
-    id: "q123456",
-    partNo: "0123456789",
-    customer: "PharmaCo",
-    item: "Anti-Cavity Toothpaste",
-  },
-  {
-    id: "q123456",
-    partNo: "0123456789",
-    customer: "PharmaCo",
-    item: "Anti-Cavity Toothpaste",
-  },
-  {
-    id: "q123456",
-    partNo: "0123456789",
-    customer: "PharmaCo",
-    item: "Anti-Cavity Toothpaste",
-  },
-])
 
 export default App

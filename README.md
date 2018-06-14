@@ -27,6 +27,27 @@ Test that the server is working with the command:
 $ curl -X POST http://localhost:3000/evaluate -H "Content-Type: application/json" -d '{ "code": "2 + 2" }'
 ```
 
+You'll also need to do a bit of work to set up the database with the required structure:
+
+```bash
+$ cd server
+$ rails db
+```
+
+At the Postgres prompt, run:
+
+```sql
+drop table if exists samples;
+create table samples (
+id text not null,
+partNo text not null,
+customer text not null,
+item text not null,
+status text not null,
+primary key(id)
+);
+```
+
 ## Frontend
 
 Start up the frontend with:
@@ -41,7 +62,38 @@ The frontend of this project was bootstrapped with [Create React App](https://gi
 Below you will find some information on how to perform common tasks.<br>
 You can find the most recent version of this guide [here](https://github.com/facebookincubator/create-react-app/blob/master/packages/react-scripts/template/README.md).
 
-## Table of Contents
+## Assemble API
+
+The Assemble client-side API is under development.
+As it stands, here arae some of the things it can do:
+
+```javascript
+import Assemble from "./assemble"
+
+// This URL is not actively used at the moment.
+// Instead, we use the `proxy` setting from `package.json` to route requests.
+assemble = new Assemble("http://localhost:3000")
+
+// A general-purpose callback function for this demo
+let callback_function = function(result) {
+  console.log(result)
+}
+
+// Repeatedly run this code every time `system_name` gets an update.
+// `watch` only accepts a single callback function.
+this.assemble.watch("system_name")`
+  code.to(run)
+`(callback_function)
+
+// `run` allows chainable callback functions using the `then` function.
+this.assemble.run("system_name")`
+  code.to(run)
+`
+.then(callback)
+.then(callback)
+```
+
+## `create-react-app` Table of Contents
 
 - [Updating to New Releases](#updating-to-new-releases)
 - [Sending Feedback](#sending-feedback)
