@@ -43,8 +43,16 @@ id text not null,
 partNo text not null,
 customer text not null,
 item text not null,
-status text not null,
 primary key(id)
+);
+
+drop table if exists results;
+create table results (
+id serial primary key,
+sample_id text not null,
+test_name text not null,
+result text not null,
+pass boolean not null
 );
 ```
 

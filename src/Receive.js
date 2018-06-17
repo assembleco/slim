@@ -1,6 +1,5 @@
 import React from "react"
 import styled from "styled-components";
-import Assemble from "./Assemble"
 import { Link } from "react-router-dom"
 
 import Card from '@material-ui/core/Card';
@@ -12,7 +11,7 @@ import { BarcodeScan } from "mdi-material-ui"
 import BarcodeField from "./BarcodeField"
 import Comment from "./Comment"
 
-const Receive = ({ samples, onReceive, onClearSamples}) => (
+const Receive = ({ samples, onReceive, onReset}) => (
   <Layout>
     <Media.BarcodeScan />
 
@@ -30,9 +29,7 @@ To test out this system, copy & paste one of these:
 * \`q456789\`
 * \`q567890\`
     `}>
-      <Link to="#" onClick={onClearSamples}>
-       Clear samples
-      </Link>
+      <Link to="#" onClick={onReset}>Reset demo</Link>
     </Comment>
 
     {samples.length > 0

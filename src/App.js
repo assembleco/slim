@@ -4,10 +4,10 @@ import styled from "styled-components"
 
 import TabView from "./TabView"
 import Assemble from "./Assemble"
+import csvParse from "./csvParse"
 
 import Receive from "./Receive"
 import Test from "./Test"
-import Review from "./Review"
 import Release from "./Release"
 
 class App extends React.Component {
@@ -15,6 +15,7 @@ class App extends React.Component {
 
   state = {
     receivedSamples: [],
+    samplesWithCompletedTests: [],
   }
 
   render() {
@@ -31,11 +32,17 @@ class App extends React.Component {
                 <Receive
                   samples={this.state.receivedSamples}
                   onReceive={this.fetchSampleInfo.bind(this)}
-                  onClearSamples={() => this.assemble.run("slim")`delete from samples`}
+                  onReset={() => {
+                    this.assemble.run("slim")`delete from results`
+                    this.assemble.run("slim")`delete from samples`
+                  }}
                 />,
-              test: () => <Test />,
-              review: () => <Review />,
-              release: () => <Release />,
+              test: () => <Test
+                  samples={this.state.receivedSamples}
+                />,
+              release: () => <Release
+                  samples={this.state.samplesWithCompletedTests}
+                />,
             }} />
         </Layout>
       </Router>
@@ -44,8 +51,21 @@ class App extends React.Component {
 
   componentDidMount() {
     this.assemble.watch("slim")`
-      select * from samples where status = 'Received'
+      select * from samples
     `((result) => this.setState({ receivedSamples: csvParse(result) }))
+
+    // TODO: this logic for a "completed" sample is flawed -
+    // it assumes there are exactly three tests defined for a sample.
+    this.assemble.watch("slim")`
+      select * from samples where samples.id
+      in (
+        select sample_id from (
+          select sample_id, count(*) count
+          from results
+          group by sample_id having count(*) >= 3
+        ) as counts
+      )
+    `((result) => this.setState({ samplesWithCompletedTests: csvParse(result) }))
   }
 
   fetchSampleInfo(sampleNo) {
@@ -91,23 +111,5 @@ const Sidebar = styled.div`
   text-align: center;
   padding-top: 2rem;
 `
-
-const csvParse = (csvData) => {
-  let lines = csvData.trim().split("\n")
-  let headers = lines.shift()
-
-  let results = []
-  lines.forEach((line) => {
-    let result = {}
-
-    headers.split(",").forEach((field, index) => {
-      result[field] = line.split(",")[index]
-    })
-
-    results.push(result)
-  })
-
-  return results;
-}
 
 export default App
