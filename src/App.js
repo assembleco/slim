@@ -31,6 +31,7 @@ class App extends React.Component {
                 <Receive
                   samples={this.state.receivedSamples}
                   onReceive={this.fetchSampleInfo.bind(this)}
+                  onClearSamples={() => this.assemble.run("slim")`delete from samples`}
                 />,
               test: () => <Test />,
               review: () => <Review />,

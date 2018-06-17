@@ -2,9 +2,10 @@ import React from "react"
 import styled from "styled-components";
 import ReactMarkdown from "react-markdown"
 
-const Comment = ({ source }) => (
+const Comment = ({ source, children }) => (
   <Layout>
     <ReactMarkdown source={source} />
+    {children}
   </Layout>
 )
 
