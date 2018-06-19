@@ -33,7 +33,7 @@ class TestSpecification extends React.Component {
 
         <TextField
           disabled={this.state.recordedResult !== null}
-          value={this.state.recordedResult && this.state.recordedResult.result || this.state.value}
+          value={(this.state.recordedResult && this.state.recordedResult.result) || this.state.value}
           onChange={(e) => this.setState({ value: e.target.value }) }
         />
 

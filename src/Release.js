@@ -1,5 +1,4 @@
 import React from "react"
-import styled from "styled-components";
 
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore"
 import ExpansionPanel from "@material-ui/core/ExpansionPanel"

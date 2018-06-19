@@ -22,6 +22,9 @@ class CodeController < ApplicationController
         sample_data.lines.first,
         sample_data.lines.find {|line| line.start_with?(sample_id) }
       ].join
+    elsif params[:system] == "ActiveDirectory"
+      # TODO
+      render json: true
     else
       render json: eval(params[:code])
     end
