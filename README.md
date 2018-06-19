@@ -43,6 +43,7 @@ id text not null,
 partNo text not null,
 customer text not null,
 item text not null,
+received_by text not null,
 primary key(id)
 );
 

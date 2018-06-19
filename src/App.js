@@ -119,13 +119,13 @@ class App extends React.Component {
     .then(csvParse)
     .then((samples) => samples.forEach((sampleInfo) => this.assemble.run("slim")`
       insert into samples
-      (id, partNo, item, customer, status)
+      (id, partNo, item, customer, received_by)
       values (
       '${sampleInfo.id}',
       '${sampleInfo.part}',
       '${sampleInfo.item}',
       '${sampleInfo.customer}',
-      'Received'
+      '${this.state.user.name}'
       )
     `))
   }

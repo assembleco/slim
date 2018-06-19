@@ -46,6 +46,8 @@ To test out this system, copy & paste one of these:
                 <T variant="title" align="left">
                   {sample.item}
                 </T>
+
+                <T variant="caption" align="left">Received by {sample.received_by}</T>
               </div>
 
               <div>
