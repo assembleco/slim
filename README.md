@@ -44,6 +44,7 @@ partNo text not null,
 customer text not null,
 item text not null,
 received_by text not null,
+received_at timestamp not null,
 primary key(id)
 );
 
@@ -54,6 +55,7 @@ sample_id text not null,
 test_name text not null,
 result text not null,
 entered_by text not null,
+entered_at timestamp not null,
 pass boolean not null
 );
 ```

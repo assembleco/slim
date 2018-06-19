@@ -120,13 +120,14 @@ class App extends React.Component {
     .then(csvParse)
     .then((samples) => samples.forEach((sampleInfo) => this.assemble.run("slim")`
       insert into samples
-      (id, partNo, item, customer, received_by)
+      (id, partNo, item, customer, received_by, received_at)
       values (
       '${sampleInfo.id}',
       '${sampleInfo.part}',
       '${sampleInfo.item}',
       '${sampleInfo.customer}',
-      '${this.state.user.name}'
+      '${this.state.user.name}',
+      (TIMESTAMP '${(new Date()).toJSON()}')
       )
     `))
   }

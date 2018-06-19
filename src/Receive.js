@@ -47,7 +47,7 @@ To test out this system, copy & paste one of these:
                   {sample.item}
                 </T>
 
-                <T variant="caption" align="left">Received by {sample.received_by}</T>
+                <T variant="caption" align="left">{sample.received_by} received at {sample.received_at}</T>
               </div>
 
               <div>
