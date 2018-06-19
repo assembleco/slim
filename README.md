@@ -46,6 +46,8 @@ item text not null,
 status text not null,
 received_by text not null,
 received_at timestamp not null,
+released_by text,
+released_at timestamp,
 primary key(id)
 );
 

@@ -132,7 +132,10 @@ class App extends React.Component {
 
   release(sampleID) {
     this.assemble.run("slim")`
-      update samples set status = 'Released'
+      update samples set
+      status = 'Released',
+      released_by = '${this.state.user.name}',
+      released_at = (TIMESTAMP '${(new Date()).toJSON()}')
       where id = '${sampleID}'
     `
   }
