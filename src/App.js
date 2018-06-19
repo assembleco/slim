@@ -3,13 +3,14 @@ import { BrowserRouter as Router, Route, Redirect } from "react-router-dom"
 import styled from "styled-components"
 
 import Assemble from "./Assemble"
+import History from "./History"
 import Receive from "./Receive"
 import Release from "./Release"
 import Sidebar from "./Sidebar"
+import SignIn from "./SignIn"
 import TabView from "./TabView"
 import Test from "./Test"
 import csvParse from "./csvParse"
-import SignIn from "./SignIn"
 
 class App extends React.Component {
   assemble = new Assemble("http://localhost:3000")
@@ -17,6 +18,7 @@ class App extends React.Component {
   state = {
     receivedSamples: [],
     samplesWithCompletedTests: [],
+    releasedSamples: [],
     user: null,
   }
 
@@ -70,6 +72,9 @@ class App extends React.Component {
                     onRelease={(sampleID) => this.release(sampleID)}
                     samples={this.state.samplesWithCompletedTests}
                   />,
+                history: () => <History
+                  samples={this.state.releasedSamples}
+                />
               }} />
           : <Redirect to="/sign_in" />
           }
@@ -92,8 +97,11 @@ class App extends React.Component {
       where status = 'Received'
     `((result) => this.setState({ receivedSamples: csvParse(result) }))
 
-    // TODO: this logic for a "completed" sample is flawed -
-    // it assumes there are exactly three tests defined for a sample.
+    this.assemble.watch("slim")`
+      select * from samples
+      where status = 'Released'
+    `((result) => this.setState({ releasedSamples: csvParse(result) }))
+
     this.assemble.watch("slim")`
       select * from samples
       where status = 'Completed'
