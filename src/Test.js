@@ -29,7 +29,10 @@ class Test extends React.Component {
             </ExpansionPanelSummary>
 
             <ExpansionPanelDetails>
-              {React.createElement(lookupTestPlan(sample.partno), { sample_id: sample.id })}
+              {React.createElement(lookupTestPlan(sample.partno), {
+                sample_id: sample.id,
+                user: this.props.user,
+              })}
             </ExpansionPanelDetails>
           </ExpansionPanel>
         ))}
@@ -50,6 +53,7 @@ class TestPlan0123123456 extends React.Component {
     return (
       <div>
         <TestSpecification
+          user={this.props.user}
           sample_id={this.props.sample_id}
           name="Appearance"
           method="Visual"
@@ -57,6 +61,7 @@ class TestPlan0123123456 extends React.Component {
         />
 
         <TestSpecification
+          user={this.props.user}
           name="Odor"
           sample_id={this.props.sample_id}
           method="Organoleptic"
@@ -64,6 +69,7 @@ class TestPlan0123123456 extends React.Component {
         />
 
         <TestSpecification
+          user={this.props.user}
           sample_id={this.props.sample_id}
           name="pH"
           method="USP"

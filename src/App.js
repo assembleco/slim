@@ -63,6 +63,7 @@ class App extends React.Component {
                   />,
                 test: () => <Test
                     samples={this.state.receivedSamples}
+                    user={this.state.user}
                   />,
                 release: () => <Release
                     samples={this.state.samplesWithCompletedTests}

@@ -38,19 +38,20 @@ class TestSpecification extends React.Component {
         />
 
         {this.state.recordedResult
-        ? "Recorded"
+        ? `Recorded by ${this.state.recordedResult.entered_by}`
         : <Button
             // TODO this automatically assumes that it passes.
             // We should have a callback to help determine whether it does or not.
             onClick={(result, source) =>
               this.assemble.run("slim")`
                 insert into results
-                (sample_id, test_name, result, pass)
+                (sample_id, test_name, result, pass, entered_by)
                 values (
                   '${this.props.sample_id}',
                   '${this.props.name}',
                   '${this.state.value}',
-                  ${true}
+                  ${true},
+                  '${this.props.user.name}'
                 )
               `
             }

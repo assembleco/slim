@@ -53,6 +53,7 @@ id serial primary key,
 sample_id text not null,
 test_name text not null,
 result text not null,
+entered_by text not null,
 pass boolean not null
 );
 ```
