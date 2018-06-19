@@ -32,6 +32,7 @@ class Test extends React.Component {
               {React.createElement(lookupTestPlan(sample.partno), {
                 sample_id: sample.id,
                 user: this.props.user,
+                onSampleCompleted: this.props.onSampleCompleted,
               })}
             </ExpansionPanelDetails>
           </ExpansionPanel>
@@ -49,6 +50,9 @@ const lookupTestPlan = (partNo) => (
 )
 
 class TestPlan0123123456 extends React.Component {
+  recordedResults = 0
+  numTests = 3
+
   render() {
     return (
       <div>
@@ -58,6 +62,7 @@ class TestPlan0123123456 extends React.Component {
           name="Appearance"
           method="Visual"
           criteria="White to off-white cream"
+          onComplete={() => this.recordResult()}
         />
 
         <TestSpecification
@@ -66,6 +71,7 @@ class TestPlan0123123456 extends React.Component {
           sample_id={this.props.sample_id}
           method="Organoleptic"
           criteria="Characteristic"
+          onComplete={() => this.recordResult()}
         />
 
         <TestSpecification
@@ -74,9 +80,18 @@ class TestPlan0123123456 extends React.Component {
           name="pH"
           method="USP"
           criteria="6.0 - 7.0"
+          onComplete={() => this.recordResult()}
         />
       </div>
     )
+  }
+
+  recordResult() {
+    this.recordedResults += 1
+
+    if(this.recordedResults == this.numTests) {
+      this.props.onSampleCompleted(this.props.sample_id)
+    }
   }
 }
 

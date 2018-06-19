@@ -16,7 +16,7 @@ class Release extends React.Component {
         {this.props.samples.length === 0
           ? <div>
               <T align="center">No samples in the system aare completed.</T>
-              <T align="center">Maybe <Link to="/receive">see if anything needs testing?</Link></T>
+              <T align="center">Maybe <Link to="/test">see if anything needs testing?</Link></T>
             </div>
           : null
         }
@@ -32,7 +32,9 @@ class Release extends React.Component {
             </ExpansionPanelDetails>
 
             <ExpansionPanelActions>
-              <Button>Release</Button>
+              <Button onClick={() => this.props.onRelease(sample.id)}>
+                Release
+              </Button>
             </ExpansionPanelActions>
           </ExpansionPanel>
         ))}

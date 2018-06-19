@@ -21,6 +21,9 @@ class TestSpecification extends React.Component {
     `((results) => {
       let recordedResult = csvParse(results)[0]
       this.setState({ recordedResult: recordedResult || null })
+
+      if(recordedResult)
+        this.props.onComplete()
     })
   }
 

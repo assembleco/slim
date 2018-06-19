@@ -64,8 +64,10 @@ class App extends React.Component {
                 test: () => <Test
                     samples={this.state.receivedSamples}
                     user={this.state.user}
+                    onSampleCompleted={(sampleID) => this.sampleCompleted(sampleID)}
                   />,
                 release: () => <Release
+                    onRelease={(sampleID) => this.release(sampleID)}
                     samples={this.state.samplesWithCompletedTests}
                   />,
               }} />
@@ -87,19 +89,14 @@ class App extends React.Component {
 
     this.assemble.watch("slim")`
       select * from samples
+      where status = 'Received'
     `((result) => this.setState({ receivedSamples: csvParse(result) }))
 
     // TODO: this logic for a "completed" sample is flawed -
     // it assumes there are exactly three tests defined for a sample.
     this.assemble.watch("slim")`
-      select * from samples where samples.id
-      in (
-        select sample_id from (
-          select sample_id, count(*) count
-          from results
-          group by sample_id having count(*) >= 3
-        ) as counts
-      )
+      select * from samples
+      where status = 'Completed'
     `((result) => this.setState({ samplesWithCompletedTests: csvParse(result) }))
   }
 
@@ -120,16 +117,31 @@ class App extends React.Component {
     .then(csvParse)
     .then((samples) => samples.forEach((sampleInfo) => this.assemble.run("slim")`
       insert into samples
-      (id, partNo, item, customer, received_by, received_at)
+      (id, partNo, item, customer, status, received_by, received_at)
       values (
       '${sampleInfo.id}',
       '${sampleInfo.part}',
       '${sampleInfo.item}',
       '${sampleInfo.customer}',
+      'Received',
       '${this.state.user.name}',
       (TIMESTAMP '${(new Date()).toJSON()}')
       )
     `))
+  }
+
+  release(sampleID) {
+    this.assemble.run("slim")`
+      update samples set status = 'Released'
+      where id = '${sampleID}'
+    `
+  }
+
+  sampleCompleted(sampleID) {
+    this.assemble.run("slim")`
+      update samples set status = 'Completed'
+      where id = '${sampleID}'
+    `
   }
 }
 
