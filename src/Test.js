@@ -1,6 +1,7 @@
 import React from "react";
 
 import TestSpecification from "./TestSpecification"
+import TestPlan from "./TestPlan"
 
 import { Link } from "react-router-dom"
 
@@ -29,78 +30,18 @@ class Test extends React.Component {
             </ExpansionPanelSummary>
 
             <ExpansionPanelDetails>
-              {React.createElement(lookupTestPlan(sample.partno), {
-                sample_id: sample.id,
-                user: this.props.user,
-                onSampleCompleted: this.props.onSampleCompleted,
-              })}
+              <TestPlan
+                sample_id={sample.id}
+                part_number={sample.partno}
+                user={this.props.user}
+                onSampleCompleted={this.props.onSampleCompleted}
+              />
             </ExpansionPanelDetails>
           </ExpansionPanel>
         ))}
       </div>
     );
   }
-}
-
-const lookupTestPlan = (partNo) => (
-  {
-    "0123123456": TestPlan0123123456,
-    "0123234567": TestPlan0123234567,
-  }[partNo]
-)
-
-class TestPlan0123123456 extends React.Component {
-  recordedResults = 0
-  numTests = 3
-
-  render() {
-    return (
-      <div>
-        <TestSpecification
-          user={this.props.user}
-          sample_id={this.props.sample_id}
-          name="Appearance"
-          method="Visual"
-          criteria="White to off-white cream"
-          onComplete={() => this.recordResult()}
-        />
-
-        <TestSpecification
-          user={this.props.user}
-          name="Odor"
-          sample_id={this.props.sample_id}
-          method="Organoleptic"
-          criteria="Characteristic"
-          onComplete={() => this.recordResult()}
-        />
-
-        <TestSpecification
-          user={this.props.user}
-          sample_id={this.props.sample_id}
-          name="pH"
-          method="USP"
-          criteria="6.0 - 7.0"
-          onComplete={() => this.recordResult()}
-        />
-      </div>
-    )
-  }
-
-  recordResult() {
-    this.recordedResults += 1
-
-    if(this.recordedResults == this.numTests) {
-      this.props.onSampleCompleted(this.props.sample_id)
-    }
-  }
-}
-
-const TestPlan0123234567 = ({ sample }) => {
-  return (
-    <div>
-      No plan has been defined for part 0123234567 yet.
-    </div>
-  )
 }
 
 export default Test

@@ -61,6 +61,53 @@ entered_by text not null,
 entered_at timestamp not null,
 pass boolean not null
 );
+
+drop table if exists specification;
+create table specification (
+id serial primary key,
+partno text not null,
+test_name text not null,
+test_method text not null,
+criteria text not null,
+judgement text not null,
+created_by text not null,
+created_at timestamp not null
+);
+```
+
+For a good first-run experience,
+create a test plan in the database, with the commands:
+
+```sql
+insert into specification (partno,test_name,test_method,criteria,judgement,created_by,created_at) values (
+'0123123456',
+'Odor',
+'Organoleptic',
+'Characteristic',
+'result.downcase == "characteristic"',
+'Grayson Wright',
+current_timestamp
+);
+
+insert into specification (partno,test_name,test_method,criteria,judgement,created_by,created_at) values (
+'0123123456',
+'pH',
+'USP',
+'6.0 - 7.0',
+'result > 6 && result < 7',
+'Grayson Wright',
+current_timestamp
+);
+
+insert into specification (partno,test_name,test_method,criteria,judgement,created_by,created_at) values (
+'0123123456',
+'Appearance',
+'Visual',
+'White to off-white cream',
+'result == "PASS"',
+'Grayson Wright',
+current_timestamp
+);
 ```
 
 ## Frontend
