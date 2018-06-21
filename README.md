@@ -79,6 +79,8 @@ For a good first-run experience,
 create a test plan in the database, with the commands:
 
 ```sql
+delete from specification;
+
 insert into specification (partno,test_name,test_method,criteria,judgement,created_by,created_at) values (
 '0123123456',
 'Odor',
@@ -94,7 +96,7 @@ insert into specification (partno,test_name,test_method,criteria,judgement,creat
 'pH',
 'USP',
 '6.0 - 7.0',
-'result > 6 && result < 7',
+'result.to_f >= 6 && result.to_f <= 7',
 'Grayson Wright',
 current_timestamp
 );
@@ -104,7 +106,7 @@ insert into specification (partno,test_name,test_method,criteria,judgement,creat
 'Appearance',
 'Visual',
 'White to off-white cream',
-'result == "PASS"',
+'result.upcase == "PASS"',
 'Grayson Wright',
 current_timestamp
 );

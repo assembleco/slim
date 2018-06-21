@@ -1,10 +1,7 @@
 import React from "react"
 
-import ExpandMoreIcon from "@material-ui/icons/ExpandMore"
-import ExpansionPanel from "@material-ui/core/ExpansionPanel"
-import ExpansionPanelDetails from "@material-ui/core/ExpansionPanelDetails"
-import ExpansionPanelSummary from "@material-ui/core/ExpansionPanelSummary"
-import ExpansionPanelActions from "@material-ui/core/ExpansionPanelActions"
+import Sample from "./Sample"
+
 import Button from "@material-ui/core/Button"
 import T from "@material-ui/core/Typography"
 import { Link } from "react-router-dom"
@@ -22,21 +19,11 @@ class Release extends React.Component {
         }
 
         {this.props.samples.map((sample) => (
-          <ExpansionPanel key={sample.id}>
-            <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-              <T>[{sample.id}] {sample.customer}: {sample.item}</T>
-            </ExpansionPanelSummary>
-
-            <ExpansionPanelDetails>
-              Something?
-            </ExpansionPanelDetails>
-
-            <ExpansionPanelActions>
-              <Button onClick={() => this.props.onRelease(sample.id)}>
-                Release
-              </Button>
-            </ExpansionPanelActions>
-          </ExpansionPanel>
+          <Sample {...sample} key={sample.id}>
+            <Button onClick={() => this.props.onRelease(sample.id)}>
+              Release
+            </Button>
+          </Sample>
         ))}
       </div>
     );

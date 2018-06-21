@@ -45,21 +45,25 @@ class TestSpecification extends React.Component {
           <T variant="caption">{this.state.recordedResult.entered_at}</T>
           </T>
         : <Button
-            // TODO this automatically assumes that it passes.
-            // We should have a callback to help determine whether it does or not.
             onClick={(result, source) =>
-              this.assemble.run("slim")`
-                insert into results
-                (sample_id, test_name, result, pass, entered_by, entered_at)
-                values (
-                  '${this.props.sample_id}',
-                  '${this.props.name}',
-                  '${this.state.value}',
-                  ${true},
-                  '${this.props.user.name}',
-                  (TIMESTAMP '${(new Date()).toJSON()}')
-                )
+              this.assemble.run("judge")`
+              result = '${this.state.value}'
+              ${this.props.judgement}
               `
+              .then((test_passed) => {
+                this.assemble.run("slim")`
+                  insert into results
+                  (sample_id, test_name, result, pass, entered_by, entered_at)
+                  values (
+                    '${this.props.sample_id}',
+                    '${this.props.name}',
+                    '${this.state.value}',
+                    ${test_passed},
+                    '${this.props.user.name}',
+                    (TIMESTAMP '${(new Date()).toJSON()}')
+                  )
+                `
+              })
             }
           >
             <SaveIcon/> Save

@@ -37,6 +37,7 @@ class TestPlan extends React.Component {
               name={spec.test_name}
               method={spec.test_method}
               criteria={spec.criteria}
+              judgement={spec.judgement}
               onComplete={() => this.recordResult()}
             />
           ))
