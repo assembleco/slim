@@ -48,7 +48,7 @@ class TestPlan extends React.Component {
   recordResult() {
     this.recordedResults += 1
 
-    if(this.recordedResults == this.state.specs.length) {
+    if(this.recordedResults === this.state.specs.length) {
       this.props.onSampleCompleted(this.props.sample_id)
     }
   }

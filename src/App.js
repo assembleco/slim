@@ -1,6 +1,6 @@
 import React from 'react';
-import { BrowserRouter as Router, Route, Redirect } from "react-router-dom"
 import styled from "styled-components"
+import { BrowserRouter as Router, Route, Redirect } from "react-router-dom"
 
 import Assemble from "./Assemble"
 import History from "./History"
@@ -8,6 +8,7 @@ import Receive from "./Receive"
 import Release from "./Release"
 import Sidebar from "./Sidebar"
 import SignIn from "./SignIn"
+import Specify from "./Specify"
 import TabView from "./TabView"
 import Test from "./Test"
 import csvParse from "./csvParse"
@@ -17,8 +18,11 @@ class App extends React.Component {
 
   state = {
     receivedSamples: [],
-    samplesWithCompletedTests: [],
+    samplesForTesting: [],
     releasedSamples: [],
+    samplesWithCompletedTests: [],
+    samplesWithoutSpecifications: [],
+    specifications: [],
     user: null,
   }
 
@@ -63,8 +67,14 @@ class App extends React.Component {
                       this.assemble.run("slim")`delete from samples`
                     }}
                   />,
+                specify: () =>
+                  <Specify
+                    samples={this.state.samplesWithoutSpecifications}
+                    specifications={this.state.specifications}
+                    onCreateSpecification={(spec) => this.createSpecification(spec)}
+                  />,
                 test: () => <Test
-                    samples={this.state.receivedSamples}
+                    samples={this.state.samplesForTesting}
                     user={this.state.user}
                     onSampleCompleted={(sampleID) => this.sampleCompleted(sampleID)}
                   />,
@@ -99,6 +109,12 @@ class App extends React.Component {
 
     this.assemble.watch("slim")`
       select * from samples
+      where status = 'Received'
+      and partno in (select distinct partno from specification)
+    `((result) => this.setState({ samplesForTesting: csvParse(result) }))
+
+    this.assemble.watch("slim")`
+      select * from samples
       where status = 'Released'
     `((result) => this.setState({ releasedSamples: csvParse(result) }))
 
@@ -106,6 +122,15 @@ class App extends React.Component {
       select * from samples
       where status = 'Completed'
     `((result) => this.setState({ samplesWithCompletedTests: csvParse(result) }))
+
+    this.assemble.watch("slim")`
+      select * from samples
+      where partno not in (select distinct partno from specification)
+    `((result) => this.setState({ samplesWithoutSpecifications: csvParse(result) }))
+
+    this.assemble.watch("slim")`
+      select * from specification
+    `((result) => this.setState({ specifications: csvParse(result) }))
   }
 
   fetchSampleInfo(sampleNo) {
@@ -153,6 +178,21 @@ class App extends React.Component {
       update samples set status = 'Completed'
       where id = '${sampleID}'
     `
+  }
+
+  createSpecification({ part, test_name, test_method, criteria, judgement }) {
+    this.assemble.run("slim")`
+      insert into specification
+      (partno,test_name,test_method,criteria,judgement,created_by,created_at) values (
+      '${part}',
+      '${test_name}',
+      '${test_method}',
+      '${criteria}',
+      '${judgement}',
+      '${this.state.user.name}',
+      current_timestamp
+      );
+  `
   }
 }
 

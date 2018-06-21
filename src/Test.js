@@ -1,6 +1,5 @@
 import React from "react";
 
-import TestSpecification from "./TestSpecification"
 import TestPlan from "./TestPlan"
 
 import { Link } from "react-router-dom"
