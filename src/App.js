@@ -23,7 +23,7 @@ class App extends React.Component {
     samplesWithCompletedTests: [],
     samplesWithoutSpecifications: [],
     specifications: [],
-    user: null,
+    user: undefined,
   }
 
   render() {
@@ -86,7 +86,7 @@ class App extends React.Component {
                   samples={this.state.releasedSamples}
                 />
               }} />
-          : <Redirect to="/sign_in" />
+          : this.state.user === null ? <Redirect to="/sign_in" /> : null
           }
         </Layout>
       </Router>
@@ -100,6 +100,8 @@ class App extends React.Component {
         name: localStorage.getItem("user_name"),
         username: localStorage.getItem("user_username"),
       }})
+    } else {
+      this.setState({ user: null })
     }
 
     this.assemble.watch("slim")`
