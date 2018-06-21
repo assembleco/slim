@@ -25,11 +25,23 @@ class Sample extends React.Component {
 
   componentDidMount() {
     this.assemble.watch("slim")`
-      select * from results
-      right outer join specification on specification.test_name = results.test_name
+    select
+    specification.test_name,
+    specification.test_method,
+    specification.criteria,
+    specification.judgement,
+    results.result,
+    results.pass,
+    results.entered_at,
+    results.entered_by
 
-      where results.sample_id = '${this.props.id}'
-      and specification.partno = '${this.props.partno}'
+    from samples
+    left outer join specification
+    on specification.partno = samples.partno
+    left outer join results
+    on specification.test_name = results.test_name
+    and results.sample_id = samples.id
+    where samples.id = '${this.props.id}'
     `((results) => this.setState({ results: csvParse(results) }))
   }
 
@@ -37,7 +49,27 @@ class Sample extends React.Component {
     return (
       <ExpansionPanel>
         <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-          <T>[{this.props.id}] {this.props.customer}: {this.props.item}</T>
+          <div>
+            <T variant="caption" align="left">
+              {this.props.customer}
+            </T>
+
+            <T variant="title" align="left">
+              {this.props.item}
+            </T>
+
+            <T variant="caption" align="left">{this.props.received_by} received at {this.props.received_at}</T>
+          </div>
+
+          <SummaryRight>
+            <T variant="caption" align="right">
+              Part {this.props.partno}
+            </T>
+
+            <T variant="subheading" align="right">
+              {this.props.id.toUpperCase()}
+            </T>
+          </SummaryRight>
         </ExpansionPanelSummary>
 
         <ExpansionPanelDetails>
@@ -67,6 +99,10 @@ class Sample extends React.Component {
 }
 
 const Layout = styled.div`
+`
+
+const SummaryRight = styled.div`
+margin-left: auto;
 `
 
 export default Sample
