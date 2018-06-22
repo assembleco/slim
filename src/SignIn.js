@@ -57,6 +57,10 @@ class SignIn extends React.Component {
   parseLDAPResultForUserInfo(ldapResult) {
     // TODO
   }
+
+  componentWillUnmount() {
+    this.assemble.destruct()
+  }
 }
 
 const stubUserInfo = () => {

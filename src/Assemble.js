@@ -4,6 +4,7 @@ class Assemble {
   constructor(url) {
     this.url = url
     this.watches = {}
+    this.active = true
   }
 
   run(system) {
@@ -21,7 +22,7 @@ class Assemble {
       })
     }).then((result) => {
       let watches = this.watches[system]
-      if(watches !== undefined) {
+      if(this.active && watches !== undefined) {
         watches.forEach((watch) => {
           watch()
         })
@@ -31,8 +32,6 @@ class Assemble {
     })
   }
 
-  // For now, this only executes the command a single time.
-  // It is an alias for the `system` function.
   watch(system) {
     if(this.watches[system] === undefined) {
       this.watches[system] = []
@@ -49,8 +48,8 @@ class Assemble {
             url: "/evaluate",
             type: "POST",
             data: { system, code },
-            success: callback,
-            error: callback,
+            success: (result) => { if(this.active) { callback(result) } },
+            error: (result) => { if(this.active) { callback(result) } },
           })
 
         this.watches[system].push(watch)
@@ -59,6 +58,11 @@ class Assemble {
     }
 
     return templating
+  }
+
+  destruct() {
+    this.watches = {}
+    this.active = false
   }
 }
 

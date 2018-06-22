@@ -52,6 +52,10 @@ class Sample extends React.Component {
     })
   }
 
+  componentWillUnmount() {
+    this.assemble.destruct()
+  }
+
   render() {
     return (
       <ExpansionPanel>

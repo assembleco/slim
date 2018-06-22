@@ -140,6 +140,10 @@ class App extends React.Component {
     `((result) => this.setState({ specifications: csvParse(result) }))
   }
 
+  componentWillUnmount() {
+    this.assemble.destruct()
+  }
+
   fetchSampleInfo(sampleNo) {
     this.assemble.run("accupacDatabase")`
       select

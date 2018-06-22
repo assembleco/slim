@@ -145,16 +145,20 @@ let callback_function = function(result) {
 
 // Repeatedly run this code every time `system_name` gets an update.
 // `watch` only accepts a single callback function.
-this.assemble.watch("system_name")`
+assemble.watch("system_name")`
   code.to(run)
 `(callback_function)
 
 // `run` allows chainable callback functions using the `then` function.
-this.assemble.run("system_name")`
+assemble.run("system_name")`
   code.to(run)
 `
 .then(callback)
 .then(callback)
+
+// Be sure to clean up when you're done.
+
+assemble.destruct()
 ```
 
 ## `create-react-app` Table of Contents
