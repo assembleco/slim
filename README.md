@@ -11,8 +11,28 @@ meaning that you must be on Accupac's internal Wi-Fi network to test out the sit
 In the future, we'll create a "demo" mode that uses sample data,
 and can be used outside of Accupac's network for demonstration purposes.
 
-In order to populate the application with relevant data,
-you need to start up the Rails backend:
+The file `/server/.env` is necessary to store secrets,
+such as connection information to outside systems.
+The format for this file is as follows:
+
+```
+SECRET_system1_variable1=value
+SECRET_system1_variable2=value
+SECRET_system1_variable3=value
+
+SECRET_system2_variable1=Rvalue
+SECRET_system2_variable2=value
+```
+
+At the moment, these variables are required for SLIM to work at Accupac:
+
+* `SECRET_accupacDatabase_server`
+* `SECRET_accupacDatabase_port`
+* `SECRET_accupacDatabase_username`
+* `SECRET_accupacDatabase_password`
+* `SECRET_accupacDatabase_database`
+
+Once you've got the secrets set, start up the Rails backend:
 
 ```bash
 $ cd server

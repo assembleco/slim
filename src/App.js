@@ -219,6 +219,7 @@ class App extends React.Component {
       where qjobid = '${sampleNo}'
       or workorderno = '${sampleNo}'
     `
+    .then(tsqlParse)
     .then(tsvParse)
     .then((samples) => samples.forEach((sampleInfo) => this.assemble.run("slim")`
       insert into samples
@@ -268,5 +269,16 @@ const Layout = styled.div`
   height: 100%;
   grid-template-rows: 100%;
 `
+
+const tsqlParse = (result) => (
+  result.split("\n")
+    .filter((line) => (line != ""))
+    .filter((line) => (!line.match(/^locale\b.+\bis\b/)))
+    .filter((line) => (!line.match(/^using default charset\b/)))
+    .filter((line) => (!line.match(/^\(\d+ rows? affected\)/)))
+    .filter((line) => (!line.match(/^\d+\> +$/)))
+    .map((line) => line.replace(/\d+\> /g, ""))
+    .join("\n")
+)
 
 export default App

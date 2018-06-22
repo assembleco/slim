@@ -58,7 +58,15 @@ GEM
     concurrent-ruby (1.0.5)
     crass (1.0.4)
     diff-lcs (1.3)
+    docker-api (1.34.2)
+      excon (>= 0.47.0)
+      multi_json
+    dotenv (2.5.0)
+    dotenv-rails (2.5.0)
+      dotenv (= 2.5.0)
+      railties (>= 3.2, < 6.0)
     erubi (1.7.1)
+    excon (0.62.0)
     ffi (1.9.25)
     globalid (0.4.1)
       activesupport (>= 4.2.0)
@@ -82,6 +90,7 @@ GEM
     mini_mime (1.0.0)
     mini_portile2 (2.3.0)
     minitest (5.11.3)
+    multi_json (1.13.1)
     nio4r (2.3.1)
     nokogiri (1.8.3)
       mini_portile2 (~> 2.3.0)
@@ -163,6 +172,8 @@ PLATFORMS
 DEPENDENCIES
   byebug
   capybara
+  docker-api
+  dotenv-rails
   launchy
   listen
   pg
