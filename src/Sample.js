@@ -62,7 +62,7 @@ class Sample extends React.Component {
         </ExpansionPanelSummary>
 
         <ExpansionPanelDetails>
-          <List dense>
+          <Layout.List dense>
             {this.state.results.map((result) => (
               <ListItem key={result.test_name}>
                 <Avatar color={result.pass === "true" ? "primary" : "error"} >
@@ -73,7 +73,7 @@ class Sample extends React.Component {
                 <ListItemText align="right" primary={result.result} secondary={`Expected: ${result.criteria}`} />
               </ListItem>
             ))}
-          </List>
+          </Layout.List>
         </ExpansionPanelDetails>
 
         {this.props.children
@@ -92,6 +92,10 @@ const Layout = styled.div`
 
 const SummaryRight = styled.div`
 margin-left: auto;
+`
+
+Layout.List = styled(List)`
+  width: 100%;
 `
 
 export default Sample
