@@ -63,7 +63,7 @@ const stubUserInfo = () => {
   return {
     id: 1360,
     username: "gwright",
-    name: "Grayson Wright",
+    name: "G Wright",
   }
 }
 
