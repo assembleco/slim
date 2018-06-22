@@ -33,9 +33,9 @@ class App extends React.Component {
           <Sidebar
             user={this.state.user}
             onSignOut={() => {
-              localStorage.removeItem("user_id")
-              localStorage.removeItem("user_name")
-              localStorage.removeItem("user_username")
+              localStorage.user_id = null
+              localStorage.user_name = null
+              localStorage.user_username = null
               this.setState({ user: null })
             }}
           />
@@ -48,9 +48,9 @@ class App extends React.Component {
             user_filter="TODO"
             user={this.state.user}
             onSignIn={(user) => {
-              localStorage.setItem("user_id", user.id)
-              localStorage.setItem("user_name", user.name)
-              localStorage.setItem("user_username", user.username)
+              localStorage.user_id = user.id
+              localStorage.user_name = user.name
+              localStorage.user_username = user.username
               this.setState({ user: user })
             }}
           />} />
@@ -99,11 +99,11 @@ class App extends React.Component {
   }
 
   componentDidMount() {
-    if(localStorage.getItem("user_id")) {
+    if(localStorage.user_id) {
       this.setState({ user: {
-        id: localStorage.getItem("user_id"),
-        name: localStorage.getItem("user_name"),
-        username: localStorage.getItem("user_username"),
+        id: localStorage.user_id,
+        name: localStorage.user_name,
+        username: localStorage.user_username,
       }})
     } else {
       this.setState({ user: null })
