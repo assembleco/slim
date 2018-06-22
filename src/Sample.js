@@ -82,14 +82,12 @@ class Sample extends React.Component {
                 </ListItem>
               : <TestSpecification
                   key={result.test_name}
-                  user={this.props.user}
-                  sample_id={this.props.id}
-                  name={result.test_name}
-                  method={result.test_method}
-                  criteria={result.criteria}
-                  judgement={result.judgement}
-                  result={result}
-                  assemble={this.assemble}
+                  spec={result}
+                  onResult={(value) => this.resultSubmitted({
+                    result: value,
+                    judgement: result.judgement,
+                    test_name: result.test_name,
+                  }) }
                   disabled={this.props.disabled}
                 />
             ))}
@@ -104,6 +102,27 @@ class Sample extends React.Component {
         }
       </ExpansionPanel>
     )
+  }
+
+  resultSubmitted({ result, judgement, test_name }) {
+    this.assemble.run("judge")`
+    result = '${result}'
+    ${judgement}
+    `
+    .then((test_passed) => {
+      this.assemble.run("slim")`
+        insert into results
+        (sample_id, test_name, result, pass, entered_by, entered_at)
+        values (
+          '${this.props.id}',
+          '${test_name}',
+          '${result}',
+          ${test_passed},
+          '${this.props.user.name}',
+          (TIMESTAMP '${(new Date()).toJSON()}')
+        )
+      `
+    })
   }
 }
 

@@ -13,15 +13,13 @@ class TestSpecification extends React.Component {
   state = { value: "" }
 
   render() {
-    let result = this.props.result
-
     return (
       <ListItem>
         <Avatar>
           <Help />
         </Avatar>
 
-        <ListItemText primary={`${result.test_name} - ${result.test_method}`} secondary={`Expected: ${result.criteria}`} />
+        <ListItemText primary={`${this.props.spec.test_name} - ${this.props.spec.test_method}`} secondary={`Expected: ${this.props.spec.criteria}`} />
         <ListItemText align="right" primary={
           <TextField
             disabled={this.props.disabled}
@@ -31,33 +29,12 @@ class TestSpecification extends React.Component {
         } secondary={
           this.props.disabled
           ? null
-          : <Button onClick={() => this.recordResult()} >
+          : <Button onClick={() => this.props.onResult(this.state.value)} >
               <SaveIcon/> Save
             </Button>
         } />
       </ListItem>
     )
-  }
-
-  recordResult() {
-    this.props.assemble.run("judge")`
-    result = '${this.state.value}'
-    ${this.props.judgement}
-    `
-    .then((test_passed) => {
-      this.props.assemble.run("slim")`
-        insert into results
-        (sample_id, test_name, result, pass, entered_by, entered_at)
-        values (
-          '${this.props.sample_id}',
-          '${this.props.name}',
-          '${this.state.value}',
-          ${test_passed},
-          '${this.props.user.name}',
-          (TIMESTAMP '${(new Date()).toJSON()}')
-        )
-      `
-    })
   }
 }
 
