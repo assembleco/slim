@@ -2,17 +2,13 @@ import React from "react"
 import styled from "styled-components";
 import { Link } from "react-router-dom"
 
-import Card from '@material-ui/core/Card';
-import CardContent from '@material-ui/core/CardContent';
-import Divider from '@material-ui/core/Divider';
-import T from '@material-ui/core/Typography';
 import { BarcodeScan } from "mdi-material-ui"
 
 import Sample from "./Sample"
 import BarcodeField from "./BarcodeField"
 import Comment from "./Comment"
 
-const Receive = ({ samples, onReceive, onReset}) => (
+const Receive = ({ samples, onReceive, onReset }) => (
   <Layout>
     <Media.BarcodeScan />
 
@@ -34,7 +30,7 @@ To test out this system, copy & paste one of these:
     </Comment>
 
     {samples.map((sample) => (
-      <Sample {...sample} key={sample.id} />
+      <Sample {...sample} key={sample.id} disabled />
     ))}
   </Layout>
 )

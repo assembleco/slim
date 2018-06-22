@@ -76,15 +76,20 @@ class App extends React.Component {
                 test: () => <Test
                     samples={this.state.samplesForTesting}
                     user={this.state.user}
-                    onSampleCompleted={(sampleID) => this.sampleCompleted(sampleID)}
+                    onSampleStateChange={(sampleID, newState) =>
+                      this.assemble.run("slim")`
+                      update samples set status = '${newState}'
+                      where id = '${sampleID}'
+                      `
+                    }
                   />,
                 release: () => <Release
                     onRelease={(sampleID) => this.release(sampleID)}
                     samples={this.state.samplesWithCompletedTests}
                   />,
                 history: () => <History
-                  samples={this.state.releasedSamples}
-                />
+                    samples={this.state.releasedSamples}
+                  />
               }} />
           : this.state.user === null ? <Redirect to="/sign_in" /> : null
           }
@@ -171,13 +176,6 @@ class App extends React.Component {
       status = 'Released',
       released_by = '${this.state.user.name}',
       released_at = (TIMESTAMP '${(new Date()).toJSON()}')
-      where id = '${sampleID}'
-    `
-  }
-
-  sampleCompleted(sampleID) {
-    this.assemble.run("slim")`
-      update samples set status = 'Completed'
       where id = '${sampleID}'
     `
   }

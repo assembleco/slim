@@ -43,7 +43,13 @@ class Sample extends React.Component {
     on specification.test_name = results.test_name
     and results.sample_id = samples.id
     where samples.id = '${this.props.id}'
-    `((results) => this.setState({ results: csvParse(results) }))
+    `((results) => {
+      this.setState({ results: csvParse(results) })
+
+      if(this.props.status === 'Received' && csvParse(results).every((spec) => spec.result)) {
+        this.props.onSampleStateChange(this.props.id, 'Completed')
+      }
+    })
   }
 
   render() {
@@ -67,12 +73,12 @@ class Sample extends React.Component {
             {this.state.results.map((result) => (
               result.result
               ? <ListItem key={result.test_name}>
-                  <Avatar color={result.pass === "true" ? "primary" : "error"} >
+                  <Avatar>
                     {result.pass === "true" ? <Pass /> : <Fail />}
                   </Avatar>
 
-                  <ListItemText primary={`${result.test_name} – ${result.test_method}`} secondary={`${result.entered_by} recorded at ${result.entered_at}`} />
-                  <ListItemText align="right" primary={result.result} secondary={`Expected: ${result.criteria}`} />
+                  <ListItemText primary={`${result.test_name} – ${result.test_method}`} secondary={`Expected: ${result.criteria}`} />
+                  <ListItemText align="right" primary={result.result} secondary={`${result.entered_by} recorded at ${result.entered_at}`} />
                 </ListItem>
               : <TestSpecification
                   key={result.test_name}
@@ -82,8 +88,9 @@ class Sample extends React.Component {
                   method={result.test_method}
                   criteria={result.criteria}
                   judgement={result.judgement}
-                  onComplete={() => null}
+                  result={result}
                   assemble={this.assemble}
+                  disabled={this.props.disabled}
                 />
             ))}
           </Layout.List>

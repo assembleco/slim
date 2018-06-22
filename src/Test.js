@@ -1,14 +1,9 @@
 import React from "react";
 
-import Sample from "./Sample"
-
 import { Link } from "react-router-dom"
-
-import ExpandMoreIcon from "@material-ui/icons/ExpandMore"
-import ExpansionPanel from "@material-ui/core/ExpansionPanel"
-import ExpansionPanelDetails from "@material-ui/core/ExpansionPanelDetails"
-import ExpansionPanelSummary from "@material-ui/core/ExpansionPanelSummary"
 import T from "@material-ui/core/Typography"
+
+import Sample from "./Sample"
 
 class Test extends React.Component {
   render() {
@@ -23,7 +18,7 @@ class Test extends React.Component {
         }
 
         {this.props.samples.map((sample) => (
-          <Sample key={sample.id} user={this.props.user} {...sample} />
+          <Sample key={sample.id} user={this.props.user} {...sample} onSampleStateChange={this.props.onSampleStateChange} />
         ))}
       </div>
     );
