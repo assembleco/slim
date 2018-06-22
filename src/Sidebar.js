@@ -19,11 +19,11 @@ const Sidebar = ({ user, onSignOut, onReset }) => (
     <Comment source={`
 Test this system with these samples:
 
-* \`q123456\`
-* \`q234567\`
-* \`q345678\`
-* \`q456789\`
-* \`q567890\`
+* \`Q603540\`
+* \`Q603640\`
+* \`Q604320\`
+* \`Q603740\`
+* \`Q604420\`
     `}>
       <Link to="#" onClick={onReset}>Reset demo</Link>
     </Comment>
