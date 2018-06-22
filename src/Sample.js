@@ -50,25 +50,14 @@ class Sample extends React.Component {
       <ExpansionPanel>
         <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
           <div>
-            <T variant="caption" align="left">
-              {this.props.customer}
-            </T>
-
-            <T variant="title" align="left">
-              {this.props.item}
-            </T>
-
+            <T variant="caption" align="left">{this.props.customer}</T>
+            <T variant="title" align="left">{this.props.item}</T>
             <T variant="caption" align="left">{this.props.received_by} received at {this.props.received_at}</T>
           </div>
 
           <SummaryRight>
-            <T variant="caption" align="right">
-              Part {this.props.partno}
-            </T>
-
-            <T variant="subheading" align="right">
-              {this.props.id.toUpperCase()}
-            </T>
+            <T variant="caption" align="right">Part {this.props.partno}</T>
+            <T variant="subheading" align="right">{this.props.id.toUpperCase()}</T>
           </SummaryRight>
         </ExpansionPanelSummary>
 
