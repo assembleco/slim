@@ -22,7 +22,7 @@ To test out this system, copy & paste one of these:
 
 * \`q123456\`
 * \`q234567\`
-* \`q345679\`
+* \`q345678\`
 * \`q456789\`
 * \`q567890\`
     `}>

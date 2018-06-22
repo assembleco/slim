@@ -106,7 +106,7 @@ insert into specification (partno,test_name,test_method,criteria,judgement,creat
 'Appearance',
 'Visual',
 'White to off-white cream',
-'result.upcase == "PASS"',
+'result.match?(/white/i)',
 'Grayson Wright',
 current_timestamp
 );
