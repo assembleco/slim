@@ -1,6 +1,5 @@
 import React from "react"
 import styled from "styled-components"
-import Assemble from "./Assemble"
 import csvParse from "./csvParse"
 
 import Button from "@material-ui/core/Button"
@@ -11,10 +10,8 @@ import TextField from "@material-ui/core/TextField"
 class TestSpecification extends React.Component {
   state = { value: "", recordedResult: null }
 
-  assemble = new Assemble("http://localhost:3000")
-
   componentDidMount() {
-    this.assemble.watch("slim")`
+    this.props.assemble.watch("slim")`
       select * from results
       where sample_id = '${this.props.sample_id}'
       and test_name = '${this.props.name}'
@@ -46,12 +43,12 @@ class TestSpecification extends React.Component {
           </T>
         : <Button
             onClick={(result, source) =>
-              this.assemble.run("judge")`
+              this.props.assemble.run("judge")`
               result = '${this.state.value}'
               ${this.props.judgement}
               `
               .then((test_passed) => {
-                this.assemble.run("slim")`
+                this.props.assemble.run("slim")`
                   insert into results
                   (sample_id, test_name, result, pass, entered_by, entered_at)
                   values (

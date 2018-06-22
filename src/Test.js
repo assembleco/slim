@@ -1,6 +1,6 @@
 import React from "react";
 
-import TestPlan from "./TestPlan"
+import Sample from "./Sample"
 
 import { Link } from "react-router-dom"
 
@@ -23,20 +23,7 @@ class Test extends React.Component {
         }
 
         {this.props.samples.map((sample) => (
-          <ExpansionPanel key={sample.id}>
-            <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-              <T>[{sample.id}] {sample.customer}: {sample.item}</T>
-            </ExpansionPanelSummary>
-
-            <ExpansionPanelDetails>
-              <TestPlan
-                sample_id={sample.id}
-                part_number={sample.partno}
-                user={this.props.user}
-                onSampleCompleted={this.props.onSampleCompleted}
-              />
-            </ExpansionPanelDetails>
-          </ExpansionPanel>
+          <Sample key={sample.id} user={this.props.user} {...sample} />
         ))}
       </div>
     );

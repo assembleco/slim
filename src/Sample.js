@@ -3,6 +3,7 @@ import styled from "styled-components"
 
 import Assemble from "./Assemble"
 import csvParse from "./csvParse"
+import TestSpecification from "./TestSpecification"
 
 import List from "@material-ui/core/List"
 import ListItem from "@material-ui/core/ListItem"
@@ -64,14 +65,26 @@ class Sample extends React.Component {
         <ExpansionPanelDetails>
           <Layout.List dense>
             {this.state.results.map((result) => (
-              <ListItem key={result.test_name}>
-                <Avatar color={result.pass === "true" ? "primary" : "error"} >
-                  {result.pass === "true" ? <Pass /> : <Fail />}
-                </Avatar>
+              result.result
+              ? <ListItem key={result.test_name}>
+                  <Avatar color={result.pass === "true" ? "primary" : "error"} >
+                    {result.pass === "true" ? <Pass /> : <Fail />}
+                  </Avatar>
 
-                <ListItemText primary={`${result.test_name} – ${result.test_method}`} secondary={`${result.entered_by} recorded at ${result.entered_at}`} />
-                <ListItemText align="right" primary={result.result} secondary={`Expected: ${result.criteria}`} />
-              </ListItem>
+                  <ListItemText primary={`${result.test_name} – ${result.test_method}`} secondary={`${result.entered_by} recorded at ${result.entered_at}`} />
+                  <ListItemText align="right" primary={result.result} secondary={`Expected: ${result.criteria}`} />
+                </ListItem>
+              : <TestSpecification
+                  key={result.test_name}
+                  user={this.props.user}
+                  sample_id={this.props.id}
+                  name={result.test_name}
+                  method={result.test_method}
+                  criteria={result.criteria}
+                  judgement={result.judgement}
+                  onComplete={() => null}
+                  assemble={this.assemble}
+                />
             ))}
           </Layout.List>
         </ExpansionPanelDetails>
