@@ -38,6 +38,10 @@ class App extends React.Component {
               localStorage.user_username = null
               this.setState({ user: null })
             }}
+            onReset={() => {
+              this.assemble.run("slim")`delete from results`
+              this.assemble.run("slim")`delete from samples`
+            }}
           />
 
           <Route path="/sign_in" component={() => <SignIn
@@ -62,10 +66,6 @@ class App extends React.Component {
                   <Receive
                     samples={this.state.receivedSamples}
                     onReceive={this.fetchSampleInfo.bind(this)}
-                    onReset={() => {
-                      this.assemble.run("slim")`delete from results`
-                      this.assemble.run("slim")`delete from samples`
-                    }}
                   />,
                 specify: () =>
                   <Specify
@@ -198,7 +198,7 @@ class App extends React.Component {
 
 const Layout = styled.div`
   display: grid;
-  grid-template-columns: 8rem 1fr 0;
+  grid-template-columns: auto 1fr 0;
   grid-column-gap: 3rem;
   height: 100%;
   grid-template-rows: 100%;

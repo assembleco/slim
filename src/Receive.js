@@ -6,7 +6,6 @@ import { BarcodeScan } from "mdi-material-ui"
 
 import Sample from "./Sample"
 import BarcodeField from "./BarcodeField"
-import Comment from "./Comment"
 
 const Receive = ({ samples, onReceive, onReset }) => (
   <Layout>
@@ -17,20 +16,10 @@ const Receive = ({ samples, onReceive, onReset }) => (
       <BarcodeField focus onScan={(value) => onReceive(value)} />
     </p>
 
-    <Comment source={`
-To test out this system, copy & paste one of these:
-
-* \`q123456\`
-* \`q234567\`
-* \`q345678\`
-* \`q456789\`
-* \`q567890\`
-    `}>
-      <Link to="#" onClick={onReset}>Reset demo</Link>
-    </Comment>
-
     {samples.map((sample) => (
-      <Sample {...sample} key={sample.id} disabled />
+      <Sample {...sample} key={sample.id} disabled >
+        <Link to="/test">Test</Link>
+      </Sample>
     ))}
   </Layout>
 )
