@@ -11,7 +11,7 @@ import SignIn from "./SignIn"
 import Specify from "./Specify"
 import TabView from "./TabView"
 import Test from "./Test"
-import csvParse from "./csvParse"
+import { tsvParse } from "./csvParse"
 
 class App extends React.Component {
   assemble = new Assemble("http://localhost:3000")
@@ -112,32 +112,32 @@ class App extends React.Component {
     this.assemble.watch("slim")`
       select * from samples
       where status = 'Received'
-    `((result) => this.setState({ receivedSamples: csvParse(result) }))
+    `((result) => this.setState({ receivedSamples: tsvParse(result) }))
 
     this.assemble.watch("slim")`
       select * from samples
       where status = 'Received'
       and partno in (select distinct partno from specification)
-    `((result) => this.setState({ samplesForTesting: csvParse(result) }))
+    `((result) => this.setState({ samplesForTesting: tsvParse(result) }))
 
     this.assemble.watch("slim")`
       select * from samples
       where status = 'Released'
-    `((result) => this.setState({ releasedSamples: csvParse(result) }))
+    `((result) => this.setState({ releasedSamples: tsvParse(result) }))
 
     this.assemble.watch("slim")`
       select * from samples
       where status = 'Completed'
-    `((result) => this.setState({ samplesWithCompletedTests: csvParse(result) }))
+    `((result) => this.setState({ samplesWithCompletedTests: tsvParse(result) }))
 
     this.assemble.watch("slim")`
       select * from samples
       where partno not in (select distinct partno from specification)
-    `((result) => this.setState({ samplesWithoutSpecifications: csvParse(result) }))
+    `((result) => this.setState({ samplesWithoutSpecifications: tsvParse(result) }))
 
     this.assemble.watch("slim")`
       select * from specification
-    `((result) => this.setState({ specifications: csvParse(result) }))
+    `((result) => this.setState({ specifications: tsvParse(result) }))
   }
 
   componentWillUnmount() {
@@ -158,7 +158,7 @@ class App extends React.Component {
       where qjobid = '${sampleNo}'
       or workorderno = '${sampleNo}'
     `
-    .then(csvParse)
+    .then(tsvParse)
     .then((samples) => samples.forEach((sampleInfo) => this.assemble.run("slim")`
       insert into samples
       (id, partNo, item, customer, status, received_by, received_at)
