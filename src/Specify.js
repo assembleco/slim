@@ -4,9 +4,27 @@ import styled from "styled-components"
 import T from "@material-ui/core/Typography"
 import NewSpecForm from "./NewSpecForm"
 
+import "bootstrap/dist/css/bootstrap.min.css"
+import Table from "react-bootstrap-table-next"
+import 'react-bootstrap-table-next/dist/react-bootstrap-table2.min.css';
+
+let specColumns = [
+  { dataField: "partno", text: "Part" },
+  { dataField: "test_name", text: "Test" },
+  { dataField: "test_method", text: "Method" },
+  { dataField: "criteria", text: "Criteria" },
+  { dataField: "judgement", text: "Judgement Logic" },
+  { dataField: "created_by", text: "Created By" },
+  { dataField: "created_at", text: "Created At" },
+]
+
 const Specify = ({ samples, onCreateSpecification, specifications }) => (
   <Layout>
-    <h2>Add a new spec</h2>
+    <h2>Active Specs</h2>
+
+    <Table keyField="id" data={specifications} columns={specColumns} />
+
+    <h3>Add a new spec</h3>
 
     {samples.length > 0
       ? <T align="left">
@@ -26,26 +44,10 @@ const Specify = ({ samples, onCreateSpecification, specifications }) => (
     </ul>
 
     <NewSpecForm onCreateSpecification={onCreateSpecification} />
-
-    <h2>Testing Specs</h2>
-
-    {specifications.map((spec) => (
-      <Spec key={spec.id}>
-        {[
-          "partno", "test_name", "test_method", "criteria", "judgement", "created_by", "created_at"
-        ].map((key) => (
-          <li key={key}>{key}: {spec[key]}</li>
-        ))}
-      </Spec>
-    ))}
   </Layout>
 )
 
 const Layout = styled.div`
-`
-
-const Spec = styled.ul`
-  margin-bottom: 1rem;
 `
 
 export default Specify
