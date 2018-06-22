@@ -29,8 +29,9 @@ class TestSpecification extends React.Component {
             onChange={(e) => this.setState({ value: e.target.value }) }
           />
         } secondary={
-          this.props.disabled ||
-            <Button onClick={() => this.recordResult()} >
+          this.props.disabled
+          ? null
+          : <Button onClick={() => this.recordResult()} >
               <SaveIcon/> Save
             </Button>
         } />
