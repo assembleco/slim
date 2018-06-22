@@ -11,8 +11,8 @@ class CodeController < ApplicationController
 
       # This returns a SQL result in pretty-close-to-CSV format
       render plain: [
-        result.columns.join(","),
-        result.rows.map {|row| row.join(",") },
+        result.columns.join("\t"),
+        result.rows.map {|row| row.join("\t") },
       ].join("\n")
     elsif params[:system] == "accupacDatabase"
       sample_data = File.read(Rails.root.join("../data.json"))

@@ -2,7 +2,7 @@ import React from "react"
 import styled from "styled-components"
 
 import Assemble from "./Assemble"
-import csvParse from "./csvParse"
+import { tsvParse } from "./csvParse"
 import TestSpecification from "./TestSpecification"
 
 import List from "@material-ui/core/List"
@@ -44,9 +44,12 @@ class Sample extends React.Component {
     and results.sample_id = samples.id
     where samples.id = '${this.props.id}'
     `((results) => {
-      this.setState({ results: csvParse(results) })
+      this.setState({ results: tsvParse(results) })
 
-      if(this.props.status === 'Received' && csvParse(results).every((spec) => spec.result)) {
+      if(this.props.status === 'Received' &&
+        tsvParse(results).length > 0 &&
+        tsvParse(results).every((spec) => spec.result)
+      ) {
         this.props.onSampleStateChange(this.props.id, 'Completed')
       }
     })

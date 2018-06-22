@@ -1,6 +1,6 @@
 // Utility function
 
-const csvParse = (csvData) => {
+const csvParse = (csvData, delimeter = ",") => {
   let lines = csvData.trim().split("\n")
   let headers = lines.shift()
 
@@ -8,8 +8,8 @@ const csvParse = (csvData) => {
   lines.forEach((line) => {
     let result = {}
 
-    headers.split(",").forEach((field, index) => {
-      result[field] = line.split(",")[index]
+    headers.split(delimeter).forEach((field, index) => {
+      result[field] = line.split(delimeter)[index]
     })
 
     results.push(result)
@@ -18,4 +18,7 @@ const csvParse = (csvData) => {
   return results;
 }
 
+const tsvParse = (data) => csvParse(data, "\t")
+
 export default csvParse;
+export { tsvParse }
