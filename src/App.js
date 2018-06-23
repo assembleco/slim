@@ -72,6 +72,12 @@ class App extends React.Component {
                     samples={this.state.samplesWithoutSpecifications}
                     specifications={this.state.specifications}
                     onCreateSpecification={(spec) => this.createSpecification(spec)}
+                    onRemoveSpec={(spec_id) => {
+                      this.assemble.run("slim")`
+                      delete from specification
+                      where id = ${spec_id}
+                      `
+                    }}
                   />,
                 test: () => <Test
                     samples={this.state.samplesForTesting}
