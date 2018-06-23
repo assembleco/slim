@@ -90,13 +90,14 @@ class App extends React.Component {
           />
 
           <Route path="/sign_in" component={() => <SignIn
-            host="TODO"
-            port="TODO"
-            bind_dn="TODO"
-            base="TODO"
-            user_filter="TODO"
             user={this.state.user}
-            onSignIn={(user) => {
+            onSignIn={(ldap_info) => {
+              let user = {
+                id: ldap_info.sAMAccountName,
+                name: `${ldap_info.givenName} ${ldap_info.sn}`,
+                username: ldap_info.mailNickname.toLowerCase(),
+              }
+
               localStorage.user_id = user.id
               localStorage.user_name = user.name
               localStorage.user_username = user.username
@@ -163,6 +164,7 @@ class App extends React.Component {
       }})
     } else {
       this.setState({ user: null })
+      return;
     }
 
     this.assemble.watch("slim")`
@@ -272,12 +274,12 @@ const Layout = styled.div`
 
 const tsqlParse = (result) => (
   result.split("\n")
-    .filter((line) => (line != ""))
+    .filter((line) => (line !== ""))
     .filter((line) => (!line.match(/^locale\b.+\bis\b/)))
     .filter((line) => (!line.match(/^using default charset\b/)))
     .filter((line) => (!line.match(/^\(\d+ rows? affected\)/)))
-    .filter((line) => (!line.match(/^\d+\> +$/)))
-    .map((line) => line.replace(/\d+\> /g, ""))
+    .filter((line) => (!line.match(/^\d+> +$/)))
+    .map((line) => line.replace(/\d+> /g, ""))
     .join("\n")
 )
 

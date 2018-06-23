@@ -7,6 +7,11 @@ class CodeController < ApplicationController
   skip_before_action :verify_authenticity_token
 
   def evaluate
+    # Substitute in any requested secret values
+    processed_code = params[:code].gsub(/{{{\w+}}}/) do |escaped_sequence|
+      secret(escaped_sequence.match(/^{{{(\w+)}}}$/).captures.first)
+    end
+
     if params[:system] == "slim"
       result = ActiveRecord::Base.connection.select_all(params[:code])
 
@@ -46,10 +51,8 @@ class CodeController < ApplicationController
       end
 
     elsif params[:system] == "ActiveDirectory"
-
-      # TODO
-      render json: true
-
+      formatted_code = processed_code.strip.split("\n").map(&:strip).join(" ")
+      render plain: `#{formatted_code}`
     else
       render json: eval(params[:code])
     end

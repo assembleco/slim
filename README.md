@@ -139,6 +139,14 @@ assemble.run("system_name")`
 .then(callback)
 .then(callback)
 
+# Sometimes, your code needs access to sensitive information.
+# use {{{triple_brackets}}} in code to specify a secret.
+assemble.run("lockdown")`
+  password.hash({{{random_key}}})
+`
+# For this example, `SECRET_lockdown_random_key`
+# would need to be defined in `server/.env`.
+
 // Be sure to clean up when you're done.
 
 assemble.destruct()
