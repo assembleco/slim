@@ -13,7 +13,9 @@ const Sidebar = ({ user, onSignOut, onReset }) => (
             Sign out
           </Layout.Link>
         </SessionInfo>
-      : <Layout.Link to="/sign_in">Sign in</Layout.Link>
+      : <SessionInfo>
+          <Layout.Link to="/sign_in">Sign in</Layout.Link>
+        </SessionInfo>
     }
 
     <Comment source={`
