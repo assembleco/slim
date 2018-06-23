@@ -75,43 +75,6 @@ created_at timestamp not null
 );
 ```
 
-For a good first-run experience,
-create a test plan in the database, with the commands:
-
-```sql
-delete from specification;
-
-insert into specification (partno,test_name,test_method,criteria,judgement,created_by,created_at) values (
-'0123123456',
-'Odor',
-'Organoleptic',
-'Characteristic',
-'result.downcase == "characteristic"',
-'Grayson Wright',
-current_timestamp
-);
-
-insert into specification (partno,test_name,test_method,criteria,judgement,created_by,created_at) values (
-'0123123456',
-'pH',
-'USP',
-'6.0 - 7.0',
-'result.to_f >= 6 && result.to_f <= 7',
-'Grayson Wright',
-current_timestamp
-);
-
-insert into specification (partno,test_name,test_method,criteria,judgement,created_by,created_at) values (
-'0123123456',
-'Appearance',
-'Visual',
-'White to off-white cream',
-'result.match?(/white/i)',
-'Grayson Wright',
-current_timestamp
-);
-```
-
 ## Frontend
 
 Start up the frontend with:

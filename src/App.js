@@ -41,6 +41,49 @@ class App extends React.Component {
             onReset={() => {
               this.assemble.run("slim")`delete from results`
               this.assemble.run("slim")`delete from samples`
+              this.assemble.run("slim")`delete from specification`
+
+              this.assemble.run("slim")`
+                insert into specification
+                (partno,test_name,test_method,criteria,judgement,created_by,created_at)
+                values (
+                '0123123456',
+                'Odor',
+                'Organoleptic',
+                'Characteristic',
+                'result.downcase == "characteristic"',
+                'Grayson Wright',
+                current_timestamp
+                );
+              `
+
+              this.assemble.run("slim")`
+                insert into specification
+                (partno,test_name,test_method,criteria,judgement,created_by,created_at)
+                values (
+                '0123123456',
+                'pH',
+                'USP',
+                '6.0 - 7.0',
+                'result.to_f >= 6 && result.to_f <= 7',
+                'Grayson Wright',
+                current_timestamp
+                );
+              `
+
+              this.assemble.run("slim")`
+                insert into specification
+                (partno,test_name,test_method,criteria,judgement,created_by,created_at)
+                values (
+                '0123123456',
+                'Appearance',
+                'Visual',
+                'White to off-white cream',
+                'result.match?(/white/i)',
+                'Grayson Wright',
+                current_timestamp
+                );
+              `
             }}
           />
 
