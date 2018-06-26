@@ -12,9 +12,10 @@ const Comment = ({ source, children }) => (
 const Layout = styled.div`
   background-color: #ffe263;
   border: 1px solid #d1b94f;
+  color: #606060;
   display: inline-block;
-  padding: 0.5rem 1rem;
   margin-bottom: 1rem;
+  padding: 0.5rem 1rem;
 `
 
 export default Comment
