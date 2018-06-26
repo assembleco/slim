@@ -80,9 +80,10 @@ class Sample extends React.Component {
             {this.state.results.map((result) => (
               result.result
               ? <ListItem key={result.test_name}>
-                  <Avatar>
-                    {result.pass === "true" ? <Pass /> : <Fail />}
-                  </Avatar>
+                  {result.pass === "true"
+                  ? <GreenAvatar><Pass/></GreenAvatar>
+                  : <RedAvatar><Fail/> </RedAvatar>
+                  }
 
                   <ListItemText primary={`${result.test_name} – ${result.test_method}`} secondary={`Expected: ${result.criteria}`} />
                   <ListItemText align="right" primary={result.result} secondary={`${result.entered_by} recorded at ${result.entered_at}`} />
@@ -142,6 +143,14 @@ margin-left: auto;
 
 Layout.List = styled(List)`
   width: 100%;
+`
+
+const GreenAvatar = styled(Avatar)`
+background-color: green !important;
+`
+
+const RedAvatar = styled(Avatar)`
+background-color: red !important;
 `
 
 export default Sample
