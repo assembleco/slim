@@ -1,6 +1,11 @@
 import React from "react"
 import styled from "styled-components"
 
+// The sample detects whether it should be expanded or not
+// based on whether the current route's params include `{ subpath: "Q123456" }`,
+// where `"Q123456"` is the sample's ID.
+import { withRouter } from "react-router-dom"
+
 import Assemble from "./Assemble"
 import { tsvParse } from "./csvParse"
 import copyTextToClipboard from "./copyTextToClipboard"
@@ -67,7 +72,9 @@ class Sample extends React.Component {
 
   render() {
     return (
-      <ExpansionPanel defaultExpanded={this.props.expanded}>
+      <ExpansionPanel
+        defaultExpanded={this.props.match.params.subpath === this.props.id}
+      >
         <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
           <div>
             <T variant="caption" align="left">{this.props.customer}</T>
@@ -173,4 +180,4 @@ const RedAvatar = styled(Avatar)`
 background-color: red !important;
 `
 
-export default Sample
+export default withRouter(Sample)

@@ -104,8 +104,8 @@ class App extends React.Component {
             }}
           />} />
 
-          <Route path="/sample/:id" component={({ match }) => {
-            return <StandaloneSample id={match.params.id} />
+          <Route path="/sample/:subpath*" component={({ match }) => {
+            return <StandaloneSample id={match.params.subpath} />
           }} />
 
           {this.state.user

@@ -26,7 +26,7 @@ class TabView extends React.Component {
           { Object.keys(this.props.tabs).map((tab) => (
             <Route
               key={tab}
-              path={base_url + "/" + tab}
+              path={base_url + "/" + tab + "/:subpath*"}
               component={this.props.tabs[tab]}
             />
           ))}

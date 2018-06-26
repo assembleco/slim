@@ -24,7 +24,7 @@ class StandaloneSample extends React.Component {
   render = () => (
     <Layout>
       { this.state.sample
-      ? <Sample {...this.state.sample} disabled expanded >
+      ? <Sample {...this.state.sample} disabled >
           <Link to={`/${this.step().toLowerCase()}/${this.props.id}`}>
             View on the {this.step()} page
           </Link>
