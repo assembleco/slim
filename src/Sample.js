@@ -61,7 +61,7 @@ class Sample extends React.Component {
 
   render() {
     return (
-      <ExpansionPanel>
+      <ExpansionPanel defaultExpanded={this.props.expanded}>
         <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
           <div>
             <T variant="caption" align="left">{this.props.customer}</T>

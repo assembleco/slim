@@ -6,6 +6,7 @@ import Assemble from "./Assemble"
 import History from "./History"
 import Receive from "./Receive"
 import Release from "./Release"
+import StandaloneSample from "./StandaloneSample"
 import Sidebar from "./Sidebar"
 import SignIn from "./SignIn"
 import Specify from "./Specify"
@@ -102,6 +103,10 @@ class App extends React.Component {
               this.setState({ user: user })
             }}
           />} />
+
+          <Route path="/sample/:id" component={({ match }) => {
+            return <StandaloneSample id={match.params.id} />
+          }} />
 
           {this.state.user
           ?  <TabView
