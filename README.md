@@ -73,6 +73,18 @@ judgement text not null,
 created_by text not null,
 created_at timestamp not null
 );
+
+drop table if exists test_plan_modifications;
+create table test_plan_modifications (
+id text not null,
+version integer not null,
+partNo text not null,
+item text not null,
+author text not null,
+authored_at timestamp not null,
+documentation text,
+primary key(id)
+);
 ```
 
 ## Frontend
