@@ -40,7 +40,8 @@ const Layout = styled.div`
 `
 
 const SessionInfo = styled.div`
-margin-bottom: 4rem;
+  margin-bottom: 4rem;
+  padding: 1rem;
 `
 
 Layout.Link = styled(Link)`
