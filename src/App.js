@@ -21,7 +21,8 @@ class App extends React.Component {
     samplesForTesting: [],
     releasedSamples: [],
     samplesWithCompletedTests: [],
-    samplesWithoutSpecifications: [],
+    partsWithoutSpecifications: [],
+    partsWithSpecifications: [],
     specifications: [],
     user: undefined,
   }
@@ -112,7 +113,8 @@ class App extends React.Component {
                   />,
                 specify: () =>
                   <Specify
-                    samples={this.state.samplesWithoutSpecifications}
+                    partsWithoutSpecifications={this.state.partsWithoutSpecifications}
+                    partsWithSpecifications={this.state.partsWithSpecifications}
                     specifications={this.state.specifications}
                     onCreateSpecification={(spec) => this.createSpecification(spec)}
                     onRemoveSpec={(spec_id) => {
@@ -180,9 +182,14 @@ class App extends React.Component {
     `((result) => this.setState({ samplesWithCompletedTests: tsvParse(result) }))
 
     this.assemble.watch("slim")`
-      select * from samples
+      select distinct partno, item from samples
       where partno not in (select distinct partno from specification)
-    `((result) => this.setState({ samplesWithoutSpecifications: tsvParse(result) }))
+    `((result) => this.setState({ partsWithoutSpecifications: tsvParse(result) }))
+
+    this.assemble.watch("slim")`
+      select distinct partno, item from samples
+      where partno in (select distinct partno from specification)
+    `((result) => this.setState({ partsWithSpecifications: tsvParse(result) }))
 
     this.assemble.watch("slim")`
       select * from specification

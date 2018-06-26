@@ -5,6 +5,12 @@ import TextField from "@material-ui/core/TextField"
 import Button from "@material-ui/core/Button"
 
 class NewSpecForm extends React.Component {
+  constructor(props) {
+    super(props)
+
+    this.state.part = props.prefilledPartNumber || ""
+  }
+
   state = {
     part: "",
     test_name: "",
@@ -16,6 +22,8 @@ class NewSpecForm extends React.Component {
   render() {
     return(
       <Layout>
+        <Layout.Title>Add a new spec</Layout.Title>
+
         <TextField
           label="Part Number"
           onChange={(e) => this.setState({ part: e.target.value })}
@@ -55,9 +63,16 @@ class NewSpecForm extends React.Component {
 }
 
 const Layout = styled.div`
-margin-bottom: 3rem;
-display: flex;
-flex-direction: column;
+  margin-top: 3rem;
+  margin-bottom: 3rem;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-column-gap: 1rem;
+`
+
+Layout.Title = styled.h3`
+  margin-bottom: 1rem;
+  grid-column: 1 / -1;
 `
 
 export default NewSpecForm
