@@ -12,7 +12,7 @@ class Release extends React.Component {
       <div>
         {this.props.samples.length === 0
           ? <div>
-              <T align="center">No samples in the system aare completed.</T>
+              <T align="center">No samples in the system are completed.</T>
               <T align="center">Maybe <Link to="/test">see if anything needs testing?</Link></T>
             </div>
           : null
