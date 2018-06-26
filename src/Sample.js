@@ -3,20 +3,26 @@ import styled from "styled-components"
 
 import Assemble from "./Assemble"
 import { tsvParse } from "./csvParse"
+import copyTextToClipboard from "./copyTextToClipboard"
 import TestSpecification from "./TestSpecification"
 
 import List from "@material-ui/core/List"
 import ListItem from "@material-ui/core/ListItem"
 import ListItemText from "@material-ui/core/ListItemText"
-import Avatar from "@material-ui/core/Avatar"
-import Pass from "@material-ui/icons/Check"
-import Fail from "@material-ui/icons/Close"
 
-import ExpandMoreIcon from "@material-ui/icons/ExpandMore"
 import ExpansionPanel from "@material-ui/core/ExpansionPanel"
 import ExpansionPanelActions from "@material-ui/core/ExpansionPanelActions"
 import ExpansionPanelDetails from "@material-ui/core/ExpansionPanelDetails"
 import ExpansionPanelSummary from "@material-ui/core/ExpansionPanelSummary"
+
+import Avatar from "@material-ui/core/Avatar"
+
+import ExpandMoreIcon from "@material-ui/icons/ExpandMore"
+import Fail from "@material-ui/icons/Close"
+import LinkIcon from "@material-ui/icons/Link"
+import Pass from "@material-ui/icons/Check"
+
+import Button from "@material-ui/core/Button"
 import T from "@material-ui/core/Typography"
 
 class Sample extends React.Component {
@@ -71,7 +77,18 @@ class Sample extends React.Component {
 
           <SummaryRight>
             <T variant="caption" align="right">Part {this.props.partno}</T>
-            <T variant="subheading" align="right">{this.props.id.toUpperCase()}</T>
+            <T variant="subheading" align="right">
+              <Button
+                onClick={(e) => {
+                  e.stopPropagation();
+                  copyTextToClipboard(`${window.location.origin}/sample/${this.props.id}`);
+                }}
+              >
+                <LinkIcon />
+              </Button>
+
+              {this.props.id.toUpperCase()}
+            </T>
           </SummaryRight>
         </ExpansionPanelSummary>
 
