@@ -15,15 +15,15 @@ import ExpansionPanelActions from "@material-ui/core/ExpansionPanelActions"
 import ExpansionPanelDetails from "@material-ui/core/ExpansionPanelDetails"
 import ExpansionPanelSummary from "@material-ui/core/ExpansionPanelSummary"
 
-import Avatar from "@material-ui/core/Avatar"
-
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore"
 import Fail from "@material-ui/icons/Close"
 import LinkIcon from "@material-ui/icons/Link"
 import Pass from "@material-ui/icons/Check"
 
+import Avatar from "@material-ui/core/Avatar"
 import Button from "@material-ui/core/Button"
 import T from "@material-ui/core/Typography"
+import Tooltip from '@material-ui/core/Tooltip';
 
 class Sample extends React.Component {
   assemble = new Assemble("https://localhost:3000")
@@ -78,14 +78,17 @@ class Sample extends React.Component {
           <SummaryRight>
             <T variant="caption" align="right">Part {this.props.partno}</T>
             <T variant="subheading" align="right">
-              <Button
-                onClick={(e) => {
-                  e.stopPropagation();
-                  copyTextToClipboard(`${window.location.origin}/sample/${this.props.id}`);
-                }}
-              >
-                <LinkIcon />
-              </Button>
+
+              <Tooltip title={`Copy a permanent link to ${this.props.id}`}>
+                <Button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    copyTextToClipboard(`${window.location.origin}/sample/${this.props.id}`);
+                  }}
+                >
+                  <LinkIcon />
+                </Button>
+              </Tooltip>
 
               {this.props.id.toUpperCase()}
             </T>
