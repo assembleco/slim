@@ -79,7 +79,7 @@ class Specify extends React.Component {
       <Layout.Column>
         {this.state.selectedPart
         ? <div>
-            <h2>Active Specs</h2>
+            <h2>Spec for Part #{this.state.selectedPart}</h2>
 
             <Table
               keyField="id"
@@ -123,13 +123,10 @@ class Specify extends React.Component {
   )
 
   tableColumns = [
-    { dataField: "partno", text: "Part" },
     { dataField: "test_name", text: "Test" },
     { dataField: "test_method", text: "Method" },
     { dataField: "criteria", text: "Criteria" },
     { dataField: "judgement", text: "Judgement Logic", headerFormatter: this.judgementHeader, formatter: this.judgementFormatter },
-    { dataField: "created_by", text: "Created By" },
-    { dataField: "created_at", text: "Created At" },
     { dataField: "id", text: "", formatter: this.removeFormatter },
   ]
 }
