@@ -34,9 +34,9 @@ class App extends React.Component {
           <Sidebar
             user={this.state.user}
             onSignOut={() => {
-              localStorage.user_id = null
-              localStorage.user_name = null
-              localStorage.user_username = null
+              localStorage.removeItem("user_id")
+              localStorage.removeItem("user_name")
+              localStorage.removeItem("user_username")
               this.setState({ user: null })
             }}
             onReset={() => {
