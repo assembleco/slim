@@ -13,6 +13,7 @@ import Specify from "./Specify"
 import TabView from "./TabView"
 import Test from "./Test"
 import { tsvParse } from "./csvParse"
+import State from "./State"
 
 class App extends React.Component {
   assemble = new Assemble("http://localhost:3000")
