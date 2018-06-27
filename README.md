@@ -4,37 +4,25 @@ A System for Laboratory Information Management.
 
 Developed for use at Accupac, Inc.
 
-## Backend
+## Frontend
 
-The application only works when it has access to Accupac's systems,
-meaning that you must be on Accupac's internal Wi-Fi network to test out the site.
-In the future, we'll create a "demo" mode that uses sample data,
-and can be used outside of Accupac's network for demonstration purposes.
-
-In order to populate the application with relevant data,
-you need to start up the Rails backend:
+Start up the frontend with:
 
 ```bash
-$ cd server
-$ gem install bundler
-$ bundle install
-$ rails s
+$ yarn
+$ yarn start
 ```
 
-Test that the server is working with the command:
+The frontend of this project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app).
 
-```bash
-$ curl -X POST http://localhost:3000/evaluate -H "Content-Type: application/json" -d '{ "code": "2 + 2" }'
-```
+Below you will find some information on how to perform common tasks.<br>
+You can find the most recent version of this guide [here](https://github.com/facebookincubator/create-react-app/blob/master/packages/react-scripts/template/README.md).
 
-You'll also need to do a bit of work to set up the database with the required structure:
+## Setup
 
-```bash
-$ cd server
-$ rails db
-```
-
-At the Postgres prompt, run:
+This project needs a database, known to Assemble as `slim`,
+with a specific structure.
+At the postgres prompt for the database, run the commands:
 
 ```sql
 drop table if exists samples;
@@ -74,20 +62,6 @@ created_by text not null,
 created_at timestamp not null
 );
 ```
-
-## Frontend
-
-Start up the frontend with:
-
-```bash
-$ yarn
-$ yarn start
-```
-
-The frontend of this project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app).
-
-Below you will find some information on how to perform common tasks.<br>
-You can find the most recent version of this guide [here](https://github.com/facebookincubator/create-react-app/blob/master/packages/react-scripts/template/README.md).
 
 ## Assemble API
 
