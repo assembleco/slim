@@ -14,7 +14,7 @@ class Assemble {
       })
 
       jquery.ajax({
-        url: "/evaluate",
+        url: "http://142.93.10.3/evaluate",
         type: "POST",
         data: { system, code },
         success: resolve,
