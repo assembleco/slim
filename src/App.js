@@ -1,5 +1,5 @@
 import React from 'react';
-import styled from "styled-components"
+import styled, { keyframes } from "styled-components"
 import { BrowserRouter as Router, Route, Redirect } from "react-router-dom"
 
 import Assemble from "./Assemble"
@@ -261,12 +261,27 @@ class App extends React.Component {
   }
 }
 
+// https://www.gradient-animator.com/
+const keys = keyframes`
+0%{background-position:0% 50%}
+50%{background-position:100% 50%}
+100%{background-position:0% 50%}
+`
+
 const Layout = styled.div`
   display: grid;
   grid-template-columns: auto 1fr 0;
   grid-column-gap: 3rem;
   height: 100%;
   grid-template-rows: 100%;
+
+  background: #a0c0e0;
+  // background: linear-gradient(226deg, #24cca1, #5c24cc, #b530b6);
+  // background-size: 800% 800%;
+
+  //   -webkit-animation: ${keys} 20s ease infinite;
+  //   -moz-animation: ${keys} 20s ease infinite;
+  //   animation: ${keys} 20s ease infinite;
 `
 
 export default App
